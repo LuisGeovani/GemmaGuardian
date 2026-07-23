@@ -108,7 +108,11 @@ O GemmaGuardian divide a complexidade da análise ambiental em quatro agentes es
    npm run build
    npm start
    ```
-
+## Integrantes
+@LuisGeovani
+@CarlosHygor
+@CaioPontes65
+@Flep0
 ---
 
 ## 📜 Licença e Créditos
