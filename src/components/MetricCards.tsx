@@ -9,6 +9,13 @@ interface MetricCardsProps {
 export const MetricCards: React.FC<MetricCardsProps> = ({ property }) => {
   const forestPct = Math.round((property.forestCoverHa / property.totalAreaHa) * 100);
   const gapPct = Math.round((property.recoveryGapHa / property.totalAreaHa) * 100);
+  const embargo = property?.embargoStatus || {
+    hasEmbargo: false,
+    embargoId: 'Nenhum',
+    status: 'ISENTO',
+    organ: 'IBAMA/ICMBio',
+    cpfCnpjMasked: '***'
+  };
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
@@ -69,7 +76,7 @@ export const MetricCards: React.FC<MetricCardsProps> = ({ property }) => {
       {/* Card 4: Status de Embargo */}
       <div
         className={`p-4 rounded-xl shadow-sm border flex justify-between items-start transition min-w-0 ${
-          property.embargoStatus.hasEmbargo
+          embargo.hasEmbargo
             ? 'bg-red-50/80 border-red-200'
             : 'bg-emerald-50/80 border-emerald-200'
         }`}
@@ -77,7 +84,7 @@ export const MetricCards: React.FC<MetricCardsProps> = ({ property }) => {
         <div className="min-w-0 pr-2 flex-1">
           <p
             className={`text-xs font-semibold uppercase tracking-wide truncate ${
-              property.embargoStatus.hasEmbargo ? 'text-red-600' : 'text-emerald-700'
+              embargo.hasEmbargo ? 'text-red-600' : 'text-emerald-700'
             }`}
           >
             Status de Embargo
@@ -86,28 +93,28 @@ export const MetricCards: React.FC<MetricCardsProps> = ({ property }) => {
           <div className="mt-1 flex flex-wrap items-baseline gap-1.5">
             <span
               className={`text-sm sm:text-base font-bold font-mono leading-tight break-all ${
-                property.embargoStatus.hasEmbargo ? 'text-red-700' : 'text-emerald-700'
+                embargo.hasEmbargo ? 'text-red-700' : 'text-emerald-700'
               }`}
             >
-              {property.embargoStatus.embargoId}
+              {embargo.embargoId}
             </span>
             <span
               className={`text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded font-sans tracking-wider ${
-                property.embargoStatus.hasEmbargo ? 'bg-red-200/80 text-red-900' : 'bg-emerald-200/80 text-emerald-900'
+                embargo.hasEmbargo ? 'bg-red-200/80 text-red-900' : 'bg-emerald-200/80 text-emerald-900'
               }`}
             >
-              {property.embargoStatus.status}
+              {embargo.status}
             </span>
           </div>
 
           <p className="text-[11px] text-slate-500 mt-1 truncate">
-            Órgão: <span className="font-semibold text-slate-700">{property.embargoStatus.organ}</span>
+            Órgão: <span className="font-semibold text-slate-700">{embargo.organ}</span>
           </p>
         </div>
 
         <div
           className={`p-2 rounded-lg shrink-0 ${
-            property.embargoStatus.hasEmbargo ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700'
+            embargo.hasEmbargo ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700'
           }`}
         >
           <ShieldAlert className="w-5 h-5" />

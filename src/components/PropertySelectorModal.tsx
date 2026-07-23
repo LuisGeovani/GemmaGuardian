@@ -150,12 +150,12 @@ export const PropertySelectorModal: React.FC<PropertySelectorModalProps> = ({
                     <div className="flex items-center space-x-2 shrink-0">
                       <span
                         className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded ${
-                          prop.embargoStatus.hasEmbargo
+                          prop?.embargoStatus?.hasEmbargo
                             ? 'bg-red-100 text-red-800'
                             : 'bg-emerald-100 text-emerald-800'
                         }`}
                       >
-                        {prop.embargoStatus.embargoId}
+                        {prop?.embargoStatus?.embargoId || 'LIVRE'}
                       </span>
                       {isSelected && (
                         <div className="w-5 h-5 bg-emerald-600 rounded-full text-white flex items-center justify-center">

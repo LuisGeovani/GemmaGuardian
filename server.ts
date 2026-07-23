@@ -10,9 +10,10 @@ async function startServer() {
   app.use(express.json());
 
   // Initialize GenAI client safely
+  const apiKey = process.env.GEM_API_KEY || process.env.GEMINI_API_KEY;
   let ai: GoogleGenAI | null = null;
-  if (process.env.GEMINI_API_KEY) {
-    ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+  if (apiKey) {
+    ai = new GoogleGenAI({ apiKey });
   }
 
   // Gemma AI Analysis Route

@@ -94,7 +94,7 @@ O GemmaGuardian divide a complexidade da análise ambiental em quatro agentes es
 3. **Configurar as Variáveis de Ambiente:**
    Crie um arquivo `.env` baseado no `.env.example`:
    ```env
-   GEMINI_API_KEY=sua_chave_de_api_aqui
+   GEM_API_KEY=sua_chave_de_api_aqui
    ```
 
 4. **Iniciar o Servidor de Desenvolvimento:**
@@ -108,11 +108,18 @@ O GemmaGuardian divide a complexidade da análise ambiental em quatro agentes es
    npm run build
    npm start
    ```
-## Integrantes
-@LuisGeovani
-@CarlosHygor
-@CaioPontes65
-@Flep0
+
+---
+
+## 👥 Equipe de Desenvolvedores
+
+Projeto idealizado e construído por:
+
+- 🟢 **Luis Geovani** ([@LuisGeovani](https://github.com/LuisGeovani))
+- 🟢 **Carlos Hygor** ([@CarlosHygor](https://github.com/CarlosHygor))
+- 🟢 **Caio Pontes** ([@CaioPontes65](https://github.com/CaioPontes65))
+- 🟢 **Flep0** ([@Flep0](https://github.com/Flep0))
+
 ---
 
 ## 📜 Licença e Créditos

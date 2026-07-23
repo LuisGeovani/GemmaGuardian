@@ -15,6 +15,14 @@ export const LegalVerdictCard: React.FC<LegalVerdictCardProps> = ({
   const [aiAnswer, setAiAnswer] = useState<string | null>(null);
   const [isConsultingAi, setIsConsultingAi] = useState(false);
 
+  const embargo = property?.embargoStatus || {
+    hasEmbargo: false,
+    embargoId: 'Nenhum',
+    status: 'ISENTO',
+    organ: 'IBAMA/ICMBio',
+    cpfCnpjMasked: '***'
+  };
+
   const handleConsultAi = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!customQuestion.trim() || isConsultingAi) return;
@@ -45,12 +53,12 @@ export const LegalVerdictCard: React.FC<LegalVerdictCardProps> = ({
         </div>
         <span
           className={`text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full border ${
-            property.embargoStatus.hasEmbargo
+            embargo.hasEmbargo
               ? 'bg-red-100 text-red-800 border-red-200'
               : 'bg-emerald-100 text-emerald-800 border-emerald-200'
           }`}
         >
-          {property.embargoStatus.hasEmbargo ? 'IRREGULARIDADE DETECTADA' : 'CONFORME'}
+          {embargo.hasEmbargo ? 'IRREGULARIDADE DETECTADA' : 'CONFORME'}
         </span>
       </div>
 
@@ -59,13 +67,13 @@ export const LegalVerdictCard: React.FC<LegalVerdictCardProps> = ({
         <p className="text-xs text-slate-700 leading-relaxed">
           <span
             className={`font-bold ${
-              property.embargoStatus.hasEmbargo ? 'text-red-600' : 'text-emerald-600'
+              embargo.hasEmbargo ? 'text-red-600' : 'text-emerald-600'
             }`}
           >
-            STATUS: {property.embargoStatus.hasEmbargo ? 'IRREGULAR' : 'REGULAR'}.
+            STATUS: {embargo.hasEmbargo ? 'IRREGULAR' : 'REGULAR'}.
           </span>{' '}
           <br />
-          {property.embargoStatus.hasEmbargo
+          {embargo.hasEmbargo
             ? `Detectada supressão de vegetação nativa e déficit na Reserva Legal de ${property.recoveryGapHa.toFixed(
                 2
               )} ha, excedendo o limite legal para a Amazônia Legal (exigido 80%).`
@@ -86,9 +94,9 @@ export const LegalVerdictCard: React.FC<LegalVerdictCardProps> = ({
           <span className="font-semibold italic underline decoration-emerald-200">
             Observação do Agente Jurídico Gemma:
           </span>{' '}
-          O embargo <span className="font-mono font-bold break-all">{property.embargoStatus.embargoId}</span> foi localizado na base de dados do{' '}
-          {property.embargoStatus.organ} referente ao cadastro CPF/CNPJ {property.embargoStatus.cpfCnpjMasked}.
-          {property.embargoStatus.hasEmbargo
+          O embargo <span className="font-mono font-bold break-all">{embargo.embargoId}</span> foi localizado na base de dados do{' '}
+          {embargo.organ} referente ao cadastro CPF/CNPJ {embargo.cpfCnpjMasked}.
+          {embargo.hasEmbargo
             ? ' Requer regularização imediata via elaboração e protocolo de PRAD para desembargo.'
             : ' Sem pendências administrativas ativas.'}
         </div>

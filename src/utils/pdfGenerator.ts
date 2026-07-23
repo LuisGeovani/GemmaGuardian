@@ -151,8 +151,8 @@ export const generatePradPdf = async (property: Property, proposal: PradProposal
       { label: 'Déficit R. Legal (PRAD):', value: `${property.recoveryGapHa} ha` },
     ],
     [
-      { label: 'Status do Embargo:', value: property.embargoStatus.hasEmbargo ? `ATIVO (${property.embargoStatus.embargoId})` : 'REGULARIZADO' },
-      { label: 'Órgão Autuador:', value: property.embargoStatus.organ },
+      { label: 'Status do Embargo:', value: property?.embargoStatus?.hasEmbargo ? `ATIVO (${property.embargoStatus.embargoId})` : 'REGULARIZADO' },
+      { label: 'Órgão Autuador:', value: property?.embargoStatus?.organ || 'IBAMA/ICMBio' },
     ],
     [
       { label: 'Coordenadas Ref.:', value: `Lat: ${property.coordinates.lat}, Lng: ${property.coordinates.lng}` },

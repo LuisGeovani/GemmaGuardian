@@ -104,7 +104,7 @@ export default function App() {
             forestCoverHa: targetProperty.forestCoverHa,
             recoveryGapHa: targetProperty.recoveryGapHa,
             legalReserveRequiredPct: targetProperty.legalReserveRequiredPct,
-            embargoStatus: targetProperty.embargoStatus,
+            embargoStatus: targetProperty?.embargoStatus || { hasEmbargo: false, embargoId: 'ISENTO', status: 'LIVRE', organ: 'IBAMA/ICMBio', cpfCnpjMasked: '***' },
             polygonVerticesCount: targetProperty.polygonCoords?.length || 0,
             deforestationZones: targetProperty.deforestationZones,
           },
@@ -185,12 +185,13 @@ export default function App() {
 
     // --- Step 2: Legal Agent (Gemma 9B RAG) ---
     const legalAiText = await callAgentApi('legal', prop);
-    const hasEmbargo = prop.embargoStatus.hasEmbargo;
+    const embargo = prop?.embargoStatus || { hasEmbargo: false, embargoId: 'Nenhum', organ: 'IBAMA/ICMBio', status: 'ISENTO', cpfCnpjMasked: '***' };
+    const hasEmbargo = Boolean(embargo.hasEmbargo);
     const legalDetail =
       legalAiText ||
       `Análise Jurídica RAG (Código Florestal Lei 12.651/2012) para ${prop.municipality}/${prop.state}. ${
         hasEmbargo
-          ? `Inconformidade Jurídica: Embargo Ativo ${prop.embargoStatus.embargoId} (${prop.embargoStatus.organ}) sob CPF/CNPJ ${prop.embargoStatus.cpfCnpjMasked}. Exige elaboração de PRAD para ${gapArea} ha para celebração de TAC e desembargo.`
+          ? `Inconformidade Jurídica: Embargo Ativo ${embargo.embargoId || ''} (${embargo.organ || ''}) sob CPF/CNPJ ${embargo.cpfCnpjMasked || '***'}. Exige elaboração de PRAD para ${gapArea} ha para celebração de TAC e desembargo.`
           : `Imóvel sem embargos ativos nas bases públicas. Situação fundiária e ambiental em conformidade.`
       }`;
 
@@ -201,7 +202,7 @@ export default function App() {
         stepCode: '02',
         message: `Agente Jurídico Gemma 9B: Veredito para ${prop.name} -> ${
           hasEmbargo
-            ? `Embargo ${prop.embargoStatus.embargoId} (${prop.embargoStatus.organ})`
+            ? `Embargo ${embargo.embargoId || ''} (${embargo.organ || ''})`
             : 'Conformidade ambiental confirmada'
         }`,
         type: hasEmbargo ? 'warning' : 'success',
@@ -215,7 +216,7 @@ export default function App() {
               ...step,
               status: 'completed',
               subtext: hasEmbargo
-                ? `Inconformidade: Embargo ${prop.embargoStatus.embargoId} (${prop.embargoStatus.organ})`
+                ? `Inconformidade: Embargo ${embargo.embargoId || ''} (${embargo.organ || ''})`
                 : 'Conforme com Código Florestal',
               details: legalDetail,
             }
@@ -313,7 +314,7 @@ export default function App() {
             totalAreaHa: currentProperty.totalAreaHa,
             forestCoverHa: currentProperty.forestCoverHa,
             recoveryGapHa: currentProperty.recoveryGapHa,
-            embargoStatus: currentProperty.embargoStatus,
+            embargoStatus: currentProperty?.embargoStatus || { hasEmbargo: false, embargoId: 'ISENTO', status: 'LIVRE', organ: 'IBAMA/ICMBio', cpfCnpjMasked: '***' },
             municipality: currentProperty.municipality,
             state: currentProperty.state,
           },
@@ -329,9 +330,10 @@ export default function App() {
       return data.text || 'Análise concluída pelo Agente Jurídico Gemma 2.';
     } catch (err: any) {
       console.warn('Fallback para resposta do Agente Jurídico Gemma 2 (RAG Local):', err);
+      const embargo = currentProperty?.embargoStatus || { hasEmbargo: false, embargoId: 'Nenhum', organ: 'IBAMA/ICMBio' };
       if (question.toLowerCase().includes('embargo') || question.toLowerCase().includes('101')) {
         return `[Agente Jurídico Gemma 2 9B - RAG Legal]
-Para o levantamento do Embargo ${currentProperty.embargoStatus.embargoId} junto ao ${currentProperty.embargoStatus.organ}:
+Para o levantamento do Embargo ${embargo.embargoId || 'ativo'} junto ao ${embargo.organ || 'órgão ambiental'}:
 1. Protocolar a Proposta de PRAD para os ${currentProperty.recoveryGapHa} ha degradados.
 2. Anexar a ART emitida por Engenheiro Florestal.
 3. Apresentar o Comprovante de Inscrição no CAR com status Em Análise/Ativo.
@@ -399,10 +401,22 @@ Com base na Lei 12.651/2012 (Código Florestal), a propriedade ${currentProperty
 
       {/* System Footer */}
       <footer className="px-6 py-3 bg-slate-200 border-t border-slate-300 text-[11px] text-slate-600 flex flex-wrap justify-between items-center shrink-0 font-sans mt-auto gap-2">
-        <div>
-          GemmaGuardian v1.0.4 • Agentes de IA Verde (Google Gemma 2) • Amazon Eco-Hack UFAC 2026 • RESEX Chico Mendes (Acre)
+        <div className="flex flex-col gap-0.5">
+          <div>
+            GemmaGuardian v1.0.4 • Agentes de IA Verde (Google Gemma 2) • Amazon Eco-Hack UFAC 2026 • RESEX Chico Mendes (Acre)
+          </div>
+          <div className="text-[10px] text-slate-500 font-medium flex flex-wrap items-center gap-1">
+            <span>Desenvolvedores:</span>
+            <a href="https://github.com/LuisGeovani" target="_blank" rel="noopener noreferrer" className="font-semibold text-emerald-800 hover:text-emerald-600 underline decoration-emerald-500/40">@LuisGeovani</a>
+            <span>•</span>
+            <a href="https://github.com/CarlosHygor" target="_blank" rel="noopener noreferrer" className="font-semibold text-emerald-800 hover:text-emerald-600 underline decoration-emerald-500/40">@CarlosHygor</a>
+            <span>•</span>
+            <a href="https://github.com/CaioPontes65" target="_blank" rel="noopener noreferrer" className="font-semibold text-emerald-800 hover:text-emerald-600 underline decoration-emerald-500/40">@CaioPontes65</a>
+            <span>•</span>
+            <a href="https://github.com/Flep0" target="_blank" rel="noopener noreferrer" className="font-semibold text-emerald-800 hover:text-emerald-600 underline decoration-emerald-500/40">@Flep0</a>
+          </div>
         </div>
-        <div className="font-mono text-slate-500">
+        <div className="font-mono text-slate-500 text-[10px]">
           MODELOS GEMMA: 2B / 9B / 27B IT • BASE DE EMBARGOS WFS: ATUALIZADA (2026)
         </div>
       </footer>

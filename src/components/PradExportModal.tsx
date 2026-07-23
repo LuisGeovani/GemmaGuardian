@@ -128,9 +128,9 @@ export const PradExportModal: React.FC<PradExportModalProps> = ({
               <div><span className="text-slate-400">Shapefile/CAR:</span> {property.shapefileCode}</div>
               <div><span className="text-slate-400">Município:</span> {property.municipality} - {property.state}</div>
               <div><span className="text-slate-400">Sistema Ref:</span> {property.coordinates.crs}</div>
-              <div><span className="text-slate-400">Embargo Ativo:</span> {property.embargoStatus.hasEmbargo ? property.embargoStatus.embargoId : 'Nenhum'}</div>
-              <div><span className="text-slate-400">Órgão Regulador:</span> {property.embargoStatus.organ}</div>
-              <div><span className="text-slate-400">CPF/CNPJ Titular:</span> {property.embargoStatus.cpfCnpjMasked}</div>
+              <div><span className="text-slate-400">Embargo Ativo:</span> {property?.embargoStatus?.hasEmbargo ? property.embargoStatus.embargoId : 'Nenhum'}</div>
+              <div><span className="text-slate-400">Órgão Regulador:</span> {property?.embargoStatus?.organ || 'IBAMA/ICMBio'}</div>
+              <div><span className="text-slate-400">CPF/CNPJ Titular:</span> {property?.embargoStatus?.cpfCnpjMasked || '***'}</div>
               <div><span className="text-slate-400">Coordenadas Datum:</span> {property.coordinates.lat}, {property.coordinates.lng}</div>
             </div>
           </div>
