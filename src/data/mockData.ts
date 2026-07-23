@@ -1,0 +1,486 @@
+import { Property, NativeSpecies, PradProposal, AgentStep, LogEntry, EmbargoRecord } from '../types';
+
+export const INITIAL_PROPERTIES: Property[] = [
+  {
+    id: 'prop-01',
+    name: 'Seringal Cachoeira - Colocação Igarapé (Gleba 01)',
+    location: 'RESEX Chico Mendes',
+    municipality: 'Xapuri',
+    state: 'AC',
+    coordinates: {
+      lat: -10.6512,
+      lng: -68.5028,
+      crs: 'EPSG:4674 (SIRGAS 2000)',
+      utmZone: 'UTM 19S',
+    },
+    totalAreaHa: 142.50,
+    forestCoverHa: 106.88, // 75.0% Floresta Nativa Preservada
+    recoveryGapHa: 7.12, // Exigência 80% RL = 114.00 ha => Deficit = 114.00 - 106.88 = 7.12 ha
+    legalReserveRequiredPct: 80,
+    embargoStatus: {
+      hasEmbargo: true,
+      embargoId: '#101',
+      status: 'ATIVO',
+      cpfCnpjMasked: '123.456.789-00',
+      organ: 'ICMBio / IBAMA',
+    },
+    shapefileCode: 'SERINGAL_CACHOEIRA_G01.SHP',
+    polygonPoints: [
+      { x: 20, y: 15 },
+      { x: 75, y: 20 },
+      { x: 85, y: 65 },
+      { x: 60, y: 85 },
+      { x: 15, y: 70 },
+    ],
+    polygonCoords: [
+      [-10.6480, -68.5080],
+      [-10.6450, -68.4980],
+      [-10.6530, -68.4920],
+      [-10.6580, -68.5010],
+      [-10.6550, -68.5110],
+    ],
+    deforestationCoords: [
+      [-10.6520, -68.5020],
+      [-10.6500, -68.4960],
+      [-10.6550, -68.4950],
+      [-10.6565, -68.5010],
+    ],
+    deforestationZones: [
+      { id: 'def-1', areaHa: 35.62, year: 2022, type: 'Corte Raso / Solo Exposto em Reserva Legal (35.62 ha)' },
+    ],
+  },
+  {
+    id: 'prop-02',
+    name: 'Seringal São Francisco - Lote 12',
+    location: 'RESEX Chico Mendes / Bacia do Acre',
+    municipality: 'Brasiléia',
+    state: 'AC',
+    coordinates: {
+      lat: -10.7850,
+      lng: -68.7520,
+      crs: 'EPSG:4674 (SIRGAS 2000)',
+      utmZone: 'UTM 19S',
+    },
+    totalAreaHa: 210.00,
+    forestCoverHa: 147.00, // 70.0% Floresta Nativa Preservada
+    recoveryGapHa: 21.00, // Exigência 80% RL = 168.00 ha => Deficit = 168.00 - 147.00 = 21.00 ha
+    legalReserveRequiredPct: 80,
+    embargoStatus: {
+      hasEmbargo: true,
+      embargoId: '#102',
+      status: 'ATIVO',
+      cpfCnpjMasked: '456.789.012-34',
+      organ: 'ICMBio / IBAMA',
+    },
+    shapefileCode: 'SAO_FRANCISCO_L12.SHP',
+    polygonPoints: [
+      { x: 10, y: 10 },
+      { x: 80, y: 15 },
+      { x: 90, y: 80 },
+      { x: 30, y: 90 },
+      { x: 5, y: 50 },
+    ],
+    polygonCoords: [
+      [-10.7820, -68.7580],
+      [-10.7780, -68.7450],
+      [-10.7890, -68.7410],
+      [-10.7930, -68.7550],
+      [-10.7880, -68.7620],
+    ],
+    deforestationCoords: [
+      [-10.7850, -68.7520],
+      [-10.7810, -68.7470],
+      [-10.7870, -68.7450],
+      [-10.7900, -68.7520],
+    ],
+    deforestationZones: [
+      { id: 'def-2', areaHa: 63.00, year: 2021, type: 'Pastagem Degradada / Solo Exposto sem Árvores (63.00 ha)' },
+    ],
+  },
+  {
+    id: 'prop-03',
+    name: 'Seringal Filipinas - Colocação Igarapé Preto',
+    location: 'RESEX Chico Mendes',
+    municipality: 'Epitaciolândia',
+    state: 'AC',
+    coordinates: {
+      lat: -10.8810,
+      lng: -68.8250,
+      crs: 'EPSG:4674 (SIRGAS 2000)',
+      utmZone: 'UTM 19S',
+    },
+    totalAreaHa: 95.00,
+    forestCoverHa: 95.00, // 100% Floresta Nativa Preservada
+    recoveryGapHa: 0.00, // 0 ha Deficit
+    legalReserveRequiredPct: 80,
+    embargoStatus: {
+      hasEmbargo: false,
+      embargoId: 'N/A',
+      status: 'REGULARIZADO',
+      cpfCnpjMasked: '789.012.345-67',
+      organ: 'ICMBio / IMAC',
+    },
+    shapefileCode: 'FILIPINAS_COL_PRETO.SHP',
+    polygonPoints: [
+      { x: 25, y: 20 },
+      { x: 70, y: 30 },
+      { x: 80, y: 75 },
+      { x: 20, y: 80 },
+    ],
+    polygonCoords: [
+      [-10.8780, -68.8310],
+      [-10.8740, -68.8180],
+      [-10.8860, -68.8150],
+      [-10.8900, -68.8280],
+    ],
+    deforestationCoords: [],
+    deforestationZones: [],
+  },
+  {
+    id: 'prop-04',
+    name: 'Seringal Remanso - Polígono Abertura',
+    location: 'RESEX Chico Mendes',
+    municipality: 'Assis Brasil',
+    state: 'AC',
+    coordinates: {
+      lat: -10.9380,
+      lng: -69.5720,
+      crs: 'EPSG:4674 (SIRGAS 2000)',
+      utmZone: 'UTM 19S',
+    },
+    totalAreaHa: 88.00,
+    forestCoverHa: 52.80, // 60.0% Cobertura Florestal
+    recoveryGapHa: 17.60, // Exigência 80% RL = 70.40 ha => Deficit = 70.40 - 52.80 = 17.60 ha
+    legalReserveRequiredPct: 80,
+    embargoStatus: {
+      hasEmbargo: true,
+      embargoId: '#204',
+      status: 'EM_ANALISE',
+      cpfCnpjMasked: '321.654.987-11',
+      organ: 'ICMBio',
+    },
+    shapefileCode: 'REMANSO_ABERTURA.SHP',
+    polygonPoints: [
+      { x: 25, y: 20 },
+      { x: 70, y: 30 },
+      { x: 80, y: 75 },
+      { x: 20, y: 80 },
+    ],
+    polygonCoords: [
+      [-10.9340, -69.5780],
+      [-10.9310, -69.5680],
+      [-10.9420, -69.5650],
+      [-10.9440, -69.5750],
+    ],
+    deforestationCoords: [
+      [-10.9380, -69.5720],
+      [-10.9350, -69.5690],
+      [-10.9400, -69.5680],
+    ],
+    deforestationZones: [
+      { id: 'def-4', areaHa: 35.20, year: 2023, type: 'Abertura para Agropecuária / Solo Exposto (35.20 ha)' },
+    ],
+  },
+  {
+    id: 'prop-05',
+    name: 'Seringal Porvir - Gleba Açaí (Totalmente Alterada)',
+    location: 'Reserva Extrativista Bacia do Iaco',
+    municipality: 'Sena Madureira',
+    state: 'AC',
+    coordinates: {
+      lat: -9.5240,
+      lng: -68.9120,
+      crs: 'EPSG:4674 (SIRGAS 2000)',
+      utmZone: 'UTM 19S',
+    },
+    totalAreaHa: 175.00,
+    forestCoverHa: 0.00, // 0% Floresta Nativa (100% Desmatada)
+    recoveryGapHa: 140.00, // Exigência 80% RL = 140.00 ha integral de recomposição
+    legalReserveRequiredPct: 80,
+    embargoStatus: {
+      hasEmbargo: true,
+      embargoId: '#305',
+      status: 'ATIVO',
+      cpfCnpjMasked: '111.222.333-44',
+      organ: 'IBAMA / ICMBio',
+    },
+    shapefileCode: 'PORVIR_GLEBA_ACAI.SHP',
+    polygonPoints: [
+      { x: 10, y: 10 },
+      { x: 80, y: 10 },
+      { x: 80, y: 80 },
+      { x: 10, y: 80 },
+    ],
+    polygonCoords: [
+      [-9.5200, -68.9180],
+      [-9.5160, -68.9060],
+      [-9.5270, -68.9040],
+      [-9.5290, -68.9150],
+    ],
+    deforestationCoords: [
+      [-9.5200, -68.9180],
+      [-9.5160, -68.9060],
+      [-9.5270, -68.9040],
+      [-9.5290, -68.9150],
+    ],
+    deforestationZones: [
+      { id: 'def-5', areaHa: 175.00, year: 2020, type: '100% Desmatado / Solo Exposto e Pastagem sem Árvores (175.00 ha)' },
+    ],
+  },
+];
+
+export const URL_WFS_EMBARGOS =
+  'https://geoservicos.inde.gov.br/geoserver/ICMBio/wfs?service=WFS&version=2.0.0&request=GetFeature&typeNames=ICMBio:embargos_icmbio&outputFormat=csv';
+
+export const INITIAL_EMBARGOS: EmbargoRecord[] = [
+  {
+    id: 'emb-101',
+    cpfCnpj: '123.456.789-00',
+    cpfCnpjClean: '12345678900',
+    nomeInfrator: 'Raimundo Nonato da Silva',
+    termoEmbargo: 'TE-0101/2023-ICMBio',
+    numProcesso: '02001.004821/2023-11',
+    organ: 'ICMBio',
+    municipio: 'Xapuri',
+    uf: 'AC',
+    nomeUc: 'RESEX Chico Mendes',
+    areaEmbargadaHa: 35.62,
+    status: 'ATIVO',
+    dataEmbargo: '14/08/2023',
+    infracao: 'Supressão não autorizada de vegetação nativa em Reserva Legal no Seringal Cachoeira',
+    theGeom: 'MULTIPOLYGON(((-68.5110 -10.6550, -68.4980 -10.6480, -68.4920 -10.6540, -68.5050 -10.6600, -68.5110 -10.6550)))',
+    wktCoords: [
+      [-10.6550, -68.5110],
+      [-10.6480, -68.4980],
+      [-10.6540, -68.4920],
+      [-10.6600, -68.5050],
+      [-10.6550, -68.5110],
+    ],
+    lat: -10.6512,
+    lng: -68.5028,
+  },
+  {
+    id: 'emb-102',
+    cpfCnpj: '456.789.012-34',
+    cpfCnpjClean: '45678901234',
+    nomeInfrator: 'Chico Mendes Extrativismo & Pecuária',
+    termoEmbargo: 'TE-0102/2023-ICMBio',
+    numProcesso: '02001.005120/2023-99',
+    organ: 'ICMBio',
+    municipio: 'Brasiléia',
+    uf: 'AC',
+    nomeUc: 'RESEX Chico Mendes',
+    areaEmbargadaHa: 63.00,
+    status: 'ATIVO',
+    dataEmbargo: '02/10/2023',
+    infracao: 'Abertura ilegítima de pastagem e remoção de cobertura vegetal em zona preservada',
+    theGeom: 'MULTIPOLYGON(((-68.7580 -10.7820, -68.7450 -10.7780, -68.7410 -10.7890, -68.7550 -10.7930, -68.7580 -10.7820)))',
+    wktCoords: [
+      [-10.7820, -68.7580],
+      [-10.7780, -68.7450],
+      [-10.7890, -68.7410],
+      [-10.7930, -68.7550],
+      [-10.7820, -68.7580],
+    ],
+    lat: -10.7850,
+    lng: -68.7520,
+  },
+  {
+    id: 'emb-204',
+    cpfCnpj: '321.654.987-11',
+    cpfCnpjClean: '32165498711',
+    nomeInfrator: 'Associação Agroextrativista de Assis Brasil',
+    termoEmbargo: 'TE-0204/2022-ICMBio',
+    numProcesso: '02001.009124/2022-45',
+    organ: 'ICMBio',
+    municipio: 'Assis Brasil',
+    uf: 'AC',
+    nomeUc: 'RESEX Chico Mendes',
+    areaEmbargadaHa: 35.20,
+    status: 'EM_ANALISE',
+    dataEmbargo: '03/11/2022',
+    infracao: 'Uso de fogo sem autorização prévia e abertura em APP no Seringal Remanso',
+    theGeom: 'MULTIPOLYGON(((-69.5770 -10.9350, -69.5660 -10.9320, -69.5640 -10.9410, -69.5740 -10.9430, -69.5770 -10.9350)))',
+    wktCoords: [
+      [-10.9350, -69.5770],
+      [-10.9320, -69.5660],
+      [-10.9410, -69.5640],
+      [-10.9430, -69.5740],
+      [-10.9350, -69.5770],
+    ],
+    lat: -10.9380,
+    lng: -69.5720,
+  },
+  {
+    id: 'emb-305',
+    cpfCnpj: '111.222.333-44',
+    cpfCnpjClean: '11122233344',
+    nomeInfrator: 'José Carlos de Melo',
+    termoEmbargo: 'TE-0305/2024-ICMBio',
+    numProcesso: '02001.012330/2024-99',
+    organ: 'ICMBio',
+    municipio: 'Sena Madureira',
+    uf: 'AC',
+    nomeUc: 'RESEX Bacia do Iaco',
+    areaEmbargadaHa: 175.00,
+    status: 'ATIVO',
+    dataEmbargo: '10/01/2024',
+    infracao: 'Desmatamento total com corte raso em área de reserva florestal do Seringal Porvir',
+    theGeom: 'MULTIPOLYGON(((-68.9180 -9.5200, -68.9060 -9.5160, -68.9040 -9.5270, -68.9150 -9.5290, -68.9180 -9.5200)))',
+    wktCoords: [
+      [-9.5200, -68.9180],
+      [-9.5160, -68.9060],
+      [-9.5270, -68.9040],
+      [-9.5290, -68.9150],
+      [-9.5200, -68.9180],
+    ],
+    lat: -9.5240,
+    lng: -68.9120,
+  },
+];
+
+export const SAMPLE_CSV_CONTENT = `FID,ogc_fid,vw_num_emb,numero_emb,serie,origem,numero_ai,cpf_cnpj,autuado,artigo_1,artigo_2,tipo_infra,nome_uc,cnuc,municipio,uf,data,ano,obs,julgamento,area,processo,desc_inf_1,desc_san_1,desc_inf_2,desc_san_2,the_geom
+embargos_icmbio.1,1,101,0101,2023,ICMBio,00101,123.456.789-00,Raimundo Nonato da Silva,Art. 50,Art. 70,Flora,RESEX Chico Mendes,0000.12.0001,Xapuri,AC,2023-08-14,2023,Fiscalização Seringal Cachoeira,EMBARGADO,35.62,02001.004821/2023-11,Supressão não autorizada de vegetação nativa em Reserva Legal no Seringal Cachoeira,Embargo de uso da área,Flora,Interdição de Atividade,"MULTIPOLYGON(((-68.5110 -10.6550, -68.4980 -10.6480, -68.4920 -10.6540, -68.5050 -10.6600, -68.5110 -10.6550)))"
+embargos_icmbio.2,2,102,0102,2023,ICMBio,00102,456.789.012-34,Chico Mendes Extrativismo & Pecuária,Art. 50,Art. 70,Flora,RESEX Chico Mendes,0000.12.0001,Brasiléia,AC,2023-10-02,2023,Abertura de pastagem sem licença,EMBARGADO,63.00,02001.005120/2023-99,Abertura ilegítima de pastagem e remoção de cobertura vegetal em zona preservada,Embargo e Interdição,Flora,Sanção Administrativa,"MULTIPOLYGON(((-68.7580 -10.7820, -68.7450 -10.7780, -68.7410 -10.7890, -68.7550 -10.7930, -68.7580 -10.7820)))"
+embargos_icmbio.3,3,204,0204,2022,ICMBio,00204,321.654.987-11,Associação Agroextrativista de Assis Brasil,Art. 38,Art. 70,Flora,RESEX Chico Mendes,0000.12.0001,Assis Brasil,AC,2022-11-03,2022,Queimada em APP,EM_ANALISE,35.20,02001.009124/2022-45,Uso de fogo sem autorização prévia e abertura em APP no Seringal Remanso,Notificação e Embargo,Flora,Interdição,"MULTIPOLYGON(((-69.5770 -10.9350, -69.5660 -10.9320, -69.5640 -10.9410, -69.5740 -10.9430, -69.5770 -10.9350)))"
+embargos_icmbio.4,4,305,0305,2024,ICMBio,00305,111.222.333-44,José Carlos de Melo,Art. 50,Art. 70,Flora,RESEX Bacia do Iaco,0000.12.0002,Sena Madureira,AC,2024-01-10,2024,Corte raso em floresta,EMBARGADO,175.00,02001.012330/2024-99,Desmatamento total com corte raso em área de reserva florestal do Seringal Porvir,Embargo Total,Flora,Multa e Interdição,"MULTIPOLYGON(((-68.9180 -9.5200, -68.9060 -9.5160, -68.9040 -9.5270, -68.9150 -9.5290, -68.9180 -9.5200)))"
+`;
+
+export const AMAZON_NATIVE_SPECIES: NativeSpecies[] = [
+  {
+    id: 'sp-1',
+    popularName: 'Castanheira-do-Brasil',
+    scientificName: 'Bertholletia excelsa',
+    ecologicalGroup: 'Clímax',
+    growthRate: 'Lento',
+    densityPerHa: 40,
+    uses: ['Produção de Nozes', 'Seringueiras Intercaladas', 'Atração de Fauna'],
+    description: 'Espécie emblemática e protegida por lei. Essencial para bioeconomia extrativista e copa da floresta.',
+  },
+  {
+    id: 'sp-2',
+    popularName: 'Mogno-da-Amazônia',
+    scientificName: 'Swietenia macrophylla',
+    ecologicalGroup: 'Secundária Tardia',
+    growthRate: 'Médio',
+    densityPerHa: 50,
+    uses: ['Madeira de Alto Valor (Manejo)', 'Fixação de Carbono'],
+    description: 'Madeira nobre nativa da bacia do Rio Acre. Requer plantio consorciado para evitar pragas.',
+  },
+  {
+    id: 'sp-3',
+    popularName: 'Andiroba',
+    scientificName: 'Carapa guianensis',
+    ecologicalGroup: 'Secundária Inicial',
+    growthRate: 'Rápido',
+    densityPerHa: 80,
+    uses: ['Extração de Óleo Medicinal', 'Repelente Natural', 'Enriquecimento de APP'],
+    description: 'Excelente para várzeas e áreas de preservação permanente ao longo de igarapés.',
+  },
+  {
+    id: 'sp-4',
+    popularName: 'Açaí-da-Mata',
+    scientificName: 'Euterpe precatoria',
+    ecologicalGroup: 'Secundária Inicial',
+    growthRate: 'Rápido',
+    densityPerHa: 150,
+    uses: ['Alimentação', 'Geração de Renda Familiar', 'Drenagem de Solo'],
+    description: 'Palmeira de estipe único abundante no Acre. Proporciona retorno financeiro precoce.',
+  },
+  {
+    id: 'sp-5',
+    popularName: 'Ipê-Roxo-da-Amazônia',
+    scientificName: 'Handroanthus impetiginosus',
+    ecologicalGroup: 'Secundária Tardia',
+    growthRate: 'Médio',
+    densityPerHa: 60,
+    uses: ['Melhoramento Polinizadores', 'Resistência Seca'],
+    description: 'Floração abundante em período seco, vital para abelhas nativas sem ferrão (Meliponíneos).',
+  },
+  {
+    id: 'sp-6',
+    popularName: 'Samaúma',
+    scientificName: 'Ceiba pentandra',
+    ecologicalGroup: 'Pioneira',
+    growthRate: 'Rápido',
+    densityPerHa: 20,
+    uses: ['Sombra Inicial', 'Recuperação Rápida de Biomassa'],
+    description: 'Árvore gigante da floresta tropical. Cria microclima favorável para espécies sombreadas.',
+  },
+];
+
+export const DEFAULT_AGENT_STEPS: AgentStep[] = [
+  {
+    id: 1,
+    name: 'Analista GIS Gemma',
+    role: 'Gemma 2B IT (Edge Local)',
+    status: 'completed',
+    subtext: 'Polígono EPSG:4674 & Visão Computacional',
+    details: 'Leitura do shapefile com Gemma 2B local e sobreposição PRODES/DETER 2026.',
+  },
+  {
+    id: 2,
+    name: 'Jurídico Florestal Gemma',
+    role: 'Gemma 2 9B IT (RAG Legal)',
+    status: 'completed',
+    subtext: 'Veredito RAG com Embargo #101',
+    details: 'Cruzamento com base pública WFS ICMBio/IBAMA e Código Florestal (Lei 12.651/2012) via Gemma 2 9B.',
+  },
+  {
+    id: 3,
+    name: 'Ecólogo Restauração Gemma',
+    role: 'Gemma 2 27B (BioInference)',
+    status: 'completed',
+    subtext: 'PRAD Otimizado (88% Confiança)',
+    confidencePct: 88,
+    details: 'Seleção de mudas nativas da Bacia do Acre e cálculo de nucleação de Anderson com Gemma 2 27B.',
+  },
+  {
+    id: 4,
+    name: 'Síntese Multimodal Gemma',
+    role: 'Gemma Multimodal (Síntese PRAD)',
+    status: 'completed',
+    subtext: 'Relatório Sintetizado & Pronto',
+    details: 'Documentação técnica compilada pelo modelo Gemma para submissão de regularização.',
+  },
+];
+
+export const INITIAL_LOGS: LogEntry[] = [
+  { timestamp: '14:28:01', stepCode: '01', message: 'Gemma 2B (Edge): CRS detectado EPSG:4674 (SIRGAS 2000)', type: 'info' },
+  { timestamp: '14:28:05', stepCode: '01', message: 'Gemma 2B (Edge): Ref SIRGAS2000 / UTM Zone 19S e visão computacional de copas', type: 'info' },
+  { timestamp: '14:28:12', stepCode: '02', message: 'Gemma 2 9B (RAG): Embargo ID #101 localizado na base pública ICMBio', type: 'warning' },
+  { timestamp: '14:28:20', stepCode: '02', message: 'Gemma 2 9B (RAG): Divergência de Reserva Legal (Art. 12 Lei 12.651/12): 28.50 ha requeridos', type: 'error' },
+  { timestamp: '14:28:35', stepCode: '03', message: 'Gemma 2 27B (Bio): Mudas nativas otimizadas p/ Acre: Castanheira, Mogno, Andiroba, Açaí', type: 'success' },
+  { timestamp: '14:29:01', stepCode: '04', message: 'Gemma Multimodal: Relatório de síntese e PRAD concluídos com sucesso.', type: 'success' },
+];
+
+export const DEFAULT_PRAD_PROPOSAL: PradProposal = {
+  propertyId: 'prop-01',
+  status: 'Proposta Preliminar',
+  professionals: [
+    { role: 'Engenheiro Florestal', requirement: 'Emissão de Anotação de Responsabilidade Técnica (ART)' },
+    { role: 'Técnico Agrícola', requirement: 'Supervisão do preparo de solo e viveiro de mudas local' },
+    { role: 'Geógrafo / Cartógrafo', requirement: 'Georreferenciamento de precisão (SIGEF / INCRA)' },
+  ],
+  speciesSuggested: AMAZON_NATIVE_SPECIES.slice(0, 4),
+  priorityActions: [
+    {
+      id: 1,
+      title: 'Cercamento de Proteção',
+      description: 'Isolamento de 28.5ha da área em regeneração para impedir pisoteio e pastejo do gado bovino.',
+    },
+    {
+      id: 2,
+      title: 'Adubação Verde e Solo',
+      description: 'Preparo com leguminosas de cobertura (Feijão-de-porco) e bioinsumos locais para enriquecimento.',
+    },
+    {
+      id: 3,
+      title: 'Plantio em Núcleos (Anderson)',
+      description: 'Implantação de ilhas de biodiversidade combinando espécies pioneiras de rápido crescimento com mudas clímax.',
+    },
+  ],
+  estimatedCostBrl: 114000, // R$ 4.000 / ha
+  estimatedTimeMonths: 36,
+  carbonOffsetTonsPerYear: 342,
+};
