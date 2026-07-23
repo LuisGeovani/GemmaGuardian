@@ -1,5 +1,7 @@
 <p align="center">
-  <img src="public/gemma_guardian_full_logo.svg" alt="GemmaGuardian Logo" width="480" />
+  <a href="#-gemmaguardian--ia-verde--agentes-gemma-para-preservacao-da-amazonia">
+    <img src="public/gemma_guardian_full_logo.svg" alt="GemmaGuardian Logo" width="540" style="background-color: #022c22; border-radius: 16px; padding: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.3);" />
+  </a>
 </p>
 
 # 🌲 GemmaGuardian — IA Verde & Agentes Gemma para Preservação da Amazônia
